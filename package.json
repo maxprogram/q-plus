@@ -1,0 +1,21 @@
+{
+  "name": "q-pro",
+  "version": "0.0.1",
+  "description": "A Q add-on that adds many promise-based flow-controlling utilities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R list"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "q": "^1.1.2"
+  },
+  "devDependencies": {
+    "mocha": "^2.0.1"
+  },
+  "keywords": [
+    "q", "promise", "promises", "deferred", "functional", "map", "flow",
+    "flow control", "array", "extention", "q-pro"
+  ]
+}
