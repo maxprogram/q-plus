@@ -19,20 +19,37 @@
 
 })(function(Q) {
 
-var newQ = function(q) {
-    var isQ = (q && q.defer && q.reject);
-    Q = isQ ? q : Q;
-
-    var fn = Q.makePromise.prototype;
+var setMethods = function(q) {
+    var fn = q.makePromise.prototype;
 
     fn.each = each;
     fn.map = map;
     fn.eachSeries = eachSeries;
     fn.forEach = eachSeries;
     fn.mapSeries = mapSeries;
-
-    return Q;
 };
+
+setMethods(Q);
+var newQ = Q;
+
+/*
+// Goal: Q+ = Q, Q+(Q) = Q
+// Problem: newQ doesn't carry over Q methods, so Q.delay wouldn't work
+var newQ = function(x) {
+    // Use provided Q
+    if (x && x.defer && x.reject) {
+        Q = x;
+        x = 'f3b642dc';
+    }
+    // Set methods id it hasn't been done
+    if (!Q.makePromise.prototype.eachSeries) {
+        setMethods(Q);
+    }
+    // Return the Q library or a promise
+    if (x === 'f3b642dc') return Q;
+    return Q(x);
+};
+*/
 
 // Reduce function that accepts Arrays & Plain Objects
 function reduce(arr, fn, accu) {

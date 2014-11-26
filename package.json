@@ -1,6 +1,6 @@
 {
-  "name": "q-pro",
-  "version": "0.0.1",
+  "name": "q-plus",
+  "version": "0.0.5",
   "description": "A Q add-on that adds many promise-based flow-controlling utilities.",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,6 @@
   },
   "keywords": [
     "q", "promise", "promises", "deferred", "functional", "map", "flow",
-    "flow control", "array", "extention", "q-pro"
+    "flow control", "array", "extention", "q-plus", "each", "forEach"
   ]
 }

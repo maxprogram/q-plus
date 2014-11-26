@@ -1,4 +1,4 @@
-var Q = require('..')(require('q'));
+var Q = require('..');
 var assert = require('assert');
 
 describe('#eachSeries', function() {

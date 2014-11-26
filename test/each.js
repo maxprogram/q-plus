@@ -1,4 +1,4 @@
-var Q = require('..')(require('q'));
+var Q = require('..');
 var assert = require('assert');
 
 describe('#each', function() {
@@ -27,7 +27,7 @@ describe('#each', function() {
 
     it('should allow promises as values', function(done) {
         var check = [false, false, false];
-        Q([0, Q(1).delay(10), 2]).each(function(num, i) {
+        Q([Q(0).delay(15), Q(1).delay(10), 2]).each(function(num, i) {
             return Q().delay(10).then(function() {
                 check[i] = true;
             });
