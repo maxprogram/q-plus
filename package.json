@@ -1,6 +1,6 @@
 {
   "name": "q-plus",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A Q add-on that adds many promise-based flow-controlling utilities.",
   "main": "index.js",
   "scripts": {
