@@ -1,6 +1,7 @@
 /*!
  * Q library (c) 2009-2012 Kris Kowal under the terms of the MIT
  * license found at http://github.com/kriskowal/q/raw/master/LICENSE
+ * Inspired by async (https://github.com/caolan/async)
  */
 
 (function (definition) {
@@ -27,6 +28,23 @@ var setMethods = function(q) {
     fn.eachSeries = eachSeries;
     fn.forEach = eachSeries;
     fn.mapSeries = mapSeries;
+    fn.while = whileFn;
+    fn.until = untilFn;
+    fn.times = times;
+    fn.timesSeries = timesSeries;
+
+    q.while = function(test, fn) {
+        return this().while(test, fn);
+    };
+    q.until = function(test, fn) {
+        return this().until(test, fn);
+    };
+    q.times = function(n, fn) {
+        return this().times(n, fn);
+    };
+    q.timesSeries = function(n, fn) {
+        return this().timesSeries(n, fn);
+    };
 };
 
 setMethods(Q);
@@ -54,7 +72,7 @@ var newQ = function(x) {
 // Reduce function that accepts Arrays & Plain Objects
 function reduce(arr, fn, accu) {
     if (typeof arr === 'object' && !Array.isArray(arr)) {
-        for (key in arr) {
+        for (var key in arr) {
             accu = fn(accu, arr[key], key);
         }
     } else {
@@ -174,6 +192,73 @@ function mapSeries(fn) {
             });
         }, Q());
     }).thenResolve(newArray);
+};
+
+/**
+ * Repeatedly call a function while a test function returns true.
+ * @promise {*}        last
+ * @param   {function} test : synchronous truth test
+ *                     @param value : Value from last iteration
+ * @param   {function} fn : The function called per iteration
+ *                     @param value : Value from last iteration
+ * @returns {*} Value from last iteration
+ */
+function whileFn(test, fn) {
+    return this.then(function(last) {
+        if (test(last)) {
+            return Q(fn(last)).then(function(value) {
+                return Q(value).while(test, fn);
+            });
+        }
+        return last;
+    });
+};
+
+/**
+ * Repeatedly call a function while a test function returns false.
+ * Same options as #while
+ */
+function untilFn(test, fn) {
+    return this.then(function(last) {
+        if (!test(last)) {
+            return Q(fn(last)).then(function(value) {
+                return Q(value).until(test, fn);
+            });
+        }
+        return last;
+    });
+};
+
+/**
+ * Calls the callback function n times, and accumulates results in the same manner you would use with map.
+ * @promise {*}        last
+ * @param   {number}   n : How many times to iterate
+ * @param   {function} fn : The function called per iteration
+ *                     @param value : Last return value
+ * @returns {array} New array
+ */
+function times(n, fn) {
+    var counter = [];
+    return this.then(function(last) {
+        for (var i = 0; i < n; i++) {
+            counter.push(last || i);
+        }
+        return Q(counter).map(fn);
+    });
+};
+
+/**
+ * Calls the callback function n times, and accumulates results in the same manner you would use with map.
+ * Same as #times
+ */
+function timesSeries(n, fn) {
+    var counter = [];
+    return this.then(function(last) {
+        for (var i = 0; i < n; i++) {
+            counter.push(last || i);
+        }
+        return Q(counter).mapSeries(fn);
+    });
 };
 
 return newQ;
