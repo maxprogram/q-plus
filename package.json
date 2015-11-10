@@ -1,6 +1,6 @@
 {
   "name": "q-plus",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "A Q add-on that adds many promise-based flow-controlling utilities.",
   "main": "index.js",
   "scripts": {
@@ -17,5 +17,9 @@
   "keywords": [
     "q", "promise", "promises", "deferred", "functional", "map", "flow",
     "flow control", "array", "extention", "q-plus", "each", "forEach"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxprogram/q-plus"
+  }
 }
